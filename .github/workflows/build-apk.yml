@@ -30,8 +30,23 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.10.2"
+      - name: Prepare optional stable signing keystore
+        env:
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+        run: |
+          if [ -n "$ANDROID_KEYSTORE_B64" ]; then
+            printf '%s' "$ANDROID_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/pocket-notify.p12"
+            echo "ANDROID_KEYSTORE_FILE=$RUNNER_TEMP/pocket-notify.p12" >> "$GITHUB_ENV"
+            echo "Stable signing keystore configured."
+          else
+            echo "No custom signing secret configured; using default debug keystore."
+          fi
       - name: Build Debug APK
         working-directory: android
+        env:
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: gradle :app:assembleDebug --no-daemon --stacktrace
       - name: Verify launchable activity in APK
         run: |

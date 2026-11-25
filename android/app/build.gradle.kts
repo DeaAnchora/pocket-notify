@@ -3,6 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+val stableKeystorePath = System.getenv("ANDROID_KEYSTORE_FILE")?.takeIf { it.isNotBlank() }
+val stableKeystoreFile = stableKeystorePath?.let { file(it) }?.takeIf { it.isFile }
+
 android {
     namespace = "com.pocketnotify.app"
     compileSdk = 34
@@ -11,13 +14,33 @@ android {
         applicationId = "com.pocketnotify.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "0.1.2"
+        versionCode = 4
+        versionName = "0.2.0"
+    }
+
+    signingConfigs {
+        if (stableKeystoreFile != null) {
+            create("stable") {
+                storeFile = stableKeystoreFile
+                storeType = "PKCS12"
+                storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: ""
+                keyAlias = System.getenv("ANDROID_KEY_ALIAS") ?: "pocketnotify"
+                keyPassword = System.getenv("ANDROID_KEY_PASSWORD") ?: ""
+            }
+        }
     }
 
     buildTypes {
+        debug {
+            if (stableKeystoreFile != null) {
+                signingConfig = signingConfigs.getByName("stable")
+            }
+        }
         release {
             isMinifyEnabled = false
+            if (stableKeystoreFile != null) {
+                signingConfig = signingConfigs.getByName("stable")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

@@ -5,5 +5,6 @@
         <item name="colorPrimaryVariant">#1D4ED8</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#0EA5E9</item>
+        <item name="android:statusBarColor">#2563EB</item>
     </style>
 </resources>

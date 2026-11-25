@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:fitsSystemWindows="true"
     android:padding="16dp">
 
     <LinearLayout
@@ -67,19 +68,34 @@
             android:textSize="13sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/etToken"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="粘贴 Token"
-            android:inputType="textVisiblePassword"
-            android:singleLine="true" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etToken"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="粘贴 Token"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btnToggleToken"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="兜底唤醒间隔（分钟，用于穿透 Doze 休眠，默认 5）"
+            android:text="兜底唤醒间隔（分钟，基础模式用于穿透 Doze，默认 5）"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -142,12 +158,83 @@
                 android:text="立即同步" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnBattery"
+        <!-- Keep-Alive & Mode Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="保活与隐藏设置"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="申请忽略电池优化（小米必点）" />
+            android:background="#0D000000"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swHideRecents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="在最近任务界面隐藏（防误划关闭）"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="开启后不在多任务卡片显示，随时可从桌面图标重新打开。"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#22000000" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swRootMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Root 模式（KernelSU 开机自启 &amp; 自动拉活）"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvRootStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="当前：基础模式（无 Root 通用：前台服务 + 定时唤醒）"
+                android:textColor="#555555"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnBattery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="忽略电池优化" />
+
+                <Button
+                    android:id="@+id/btnCheckRoot"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="检查 Root 守护" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"

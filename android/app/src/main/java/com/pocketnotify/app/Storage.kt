@@ -2,7 +2,6 @@ package com.pocketnotify.app
 
 import android.content.Context
 import org.json.JSONArray
-import org.json.JSONObject
 
 object Storage {
     private const val PREFS_NAME = "pocket_notify_prefs"
@@ -11,6 +10,8 @@ object Storage {
     private const val KEY_TOKEN = "token"
     private const val KEY_POLL_MINUTES = "poll_minutes"
     private const val KEY_SERVICE_ENABLED = "service_enabled"
+    private const val KEY_HIDE_RECENTS = "hide_from_recents"
+    private const val KEY_ROOT_MODE = "root_mode_enabled"
     private const val KEY_LAST_SEEN_ID = "last_seen_id"
     private const val KEY_STATUS_TEXT = "status_text"
     private const val KEY_HISTORY = "history_json"
@@ -26,7 +27,9 @@ object Storage {
             backupUrl = p.getString(KEY_BACKUP_URL, "") ?: "",
             token = p.getString(KEY_TOKEN, "") ?: "",
             pollIntervalMinutes = p.getInt(KEY_POLL_MINUTES, 5).coerceIn(1, 60),
-            serviceEnabled = p.getBoolean(KEY_SERVICE_ENABLED, false)
+            serviceEnabled = p.getBoolean(KEY_SERVICE_ENABLED, false),
+            hideFromRecents = p.getBoolean(KEY_HIDE_RECENTS, false),
+            rootModeEnabled = p.getBoolean(KEY_ROOT_MODE, false)
         )
     }
 
@@ -37,11 +40,21 @@ object Storage {
             .putString(KEY_TOKEN, config.token.trim())
             .putInt(KEY_POLL_MINUTES, config.pollIntervalMinutes.coerceIn(1, 60))
             .putBoolean(KEY_SERVICE_ENABLED, config.serviceEnabled)
+            .putBoolean(KEY_HIDE_RECENTS, config.hideFromRecents)
+            .putBoolean(KEY_ROOT_MODE, config.rootModeEnabled)
             .apply()
     }
 
     fun setServiceEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_SERVICE_ENABLED, enabled).apply()
+    }
+
+    fun setHideFromRecents(context: Context, hide: Boolean) {
+        prefs(context).edit().putBoolean(KEY_HIDE_RECENTS, hide).apply()
+    }
+
+    fun setRootModeEnabled(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_ROOT_MODE, enabled).apply()
     }
 
     @Synchronized
