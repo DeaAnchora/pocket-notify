@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var tvStatus: TextView
     private lateinit var tvRootStatus: TextView
-    private lateinit var etQuickWebUrl: EditText
     private lateinit var etPrimaryUrl: EditText
     private lateinit var etBackupUrl: EditText
     private lateinit var etToken: EditText
@@ -61,7 +60,6 @@ class MainActivity : AppCompatActivity() {
 
         tvStatus = findViewById(R.id.tvStatus)
         tvRootStatus = findViewById(R.id.tvRootStatus)
-        etQuickWebUrl = findViewById(R.id.etQuickWebUrl)
         etPrimaryUrl = findViewById(R.id.etPrimaryUrl)
         etBackupUrl = findViewById(R.id.etBackupUrl)
         etToken = findViewById(R.id.etToken)
@@ -71,23 +69,11 @@ class MainActivity : AppCompatActivity() {
         llHistory = findViewById(R.id.llHistory)
 
         val cfg = Storage.loadConfig(this)
-        etQuickWebUrl.setText(cfg.quickWebUrl)
         etPrimaryUrl.setText(cfg.primaryUrl)
         etBackupUrl.setText(cfg.backupUrl)
         etToken.setText(cfg.token)
         etInterval.setText(cfg.pollIntervalMinutes.toString())
         swHideRecents.isChecked = cfg.hideFromRecents
-
-        findViewById<Button>(R.id.btnOpenQuickWeb).setOnClickListener {
-            val url = etQuickWebUrl.text.toString().trim()
-            if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                toast("请先填写以 http:// 或 https:// 开头的网址")
-                return@setOnClickListener
-            }
-            val current = readFormConfig(serviceEnabled = Storage.loadConfig(this).serviceEnabled)
-            Storage.saveConfig(this, current)
-            CustomTabsHelper.openUrl(this, url)
-        }
 
         suppressRootSwitchCallback = true
         swRootMode.isChecked = cfg.rootModeEnabled
@@ -266,8 +252,7 @@ class MainActivity : AppCompatActivity() {
             pollIntervalMinutes = mins.coerceIn(1, 60),
             serviceEnabled = serviceEnabled,
             hideFromRecents = swHideRecents.isChecked,
-            rootModeEnabled = existing.rootModeEnabled,
-            quickWebUrl = etQuickWebUrl.text.toString().trim()
+            rootModeEnabled = existing.rootModeEnabled
         )
     }
 
