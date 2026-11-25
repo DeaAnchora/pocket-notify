@@ -33,6 +33,10 @@ jobs:
       - name: Build Debug APK
         working-directory: android
         run: gradle :app:assembleDebug --no-daemon --stacktrace
+      - name: Verify launchable activity in APK
+        run: |
+          AAPT2=$(find "$ANDROID_HOME/build-tools" -name aapt2 | sort -V | tail -n 1)
+          "$AAPT2" dump badging android/app/build/outputs/apk/debug/app-debug.apk | grep -E "package:|launchable-activity:"
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
