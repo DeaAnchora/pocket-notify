@@ -12,6 +12,7 @@ object Storage {
     private const val KEY_SERVICE_ENABLED = "service_enabled"
     private const val KEY_HIDE_RECENTS = "hide_from_recents"
     private const val KEY_ROOT_MODE = "root_mode_enabled"
+    private const val KEY_QUICK_WEB_URL = "quick_web_url"
     private const val KEY_LAST_SEEN_ID = "last_seen_id"
     private const val KEY_STATUS_TEXT = "status_text"
     private const val KEY_HISTORY = "history_json"
@@ -29,7 +30,8 @@ object Storage {
             pollIntervalMinutes = p.getInt(KEY_POLL_MINUTES, 5).coerceIn(1, 60),
             serviceEnabled = p.getBoolean(KEY_SERVICE_ENABLED, false),
             hideFromRecents = p.getBoolean(KEY_HIDE_RECENTS, false),
-            rootModeEnabled = p.getBoolean(KEY_ROOT_MODE, false)
+            rootModeEnabled = p.getBoolean(KEY_ROOT_MODE, false),
+            quickWebUrl = p.getString(KEY_QUICK_WEB_URL, "") ?: ""
         )
     }
 
@@ -42,6 +44,7 @@ object Storage {
             .putBoolean(KEY_SERVICE_ENABLED, config.serviceEnabled)
             .putBoolean(KEY_HIDE_RECENTS, config.hideFromRecents)
             .putBoolean(KEY_ROOT_MODE, config.rootModeEnabled)
+            .putString(KEY_QUICK_WEB_URL, config.quickWebUrl.trim())
             .apply()
     }
 

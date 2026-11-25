@@ -41,7 +41,8 @@ data class RelayConfig(
     val pollIntervalMinutes: Int,
     val serviceEnabled: Boolean,
     val hideFromRecents: Boolean = false,
-    val rootModeEnabled: Boolean = false
+    val rootModeEnabled: Boolean = false,
+    val quickWebUrl: String = ""
 ) {
     fun candidateBaseUrls(): List<String> = listOf(primaryUrl, backupUrl)
         .map { it.trim().trimEnd('/') }

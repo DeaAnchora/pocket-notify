@@ -81,9 +81,7 @@ object Notifier {
     fun showEvent(context: Context, event: NotifyEvent) {
         val channelId = ensureEventChannel(context, event.channel)
         val clickIntent = if (event.clickUrl.startsWith("http://") || event.clickUrl.startsWith("https://")) {
-            Intent(Intent.ACTION_VIEW, Uri.parse(event.clickUrl)).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
+            LinkRouterActivity.createIntent(context, event.clickUrl)
         } else {
             Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
