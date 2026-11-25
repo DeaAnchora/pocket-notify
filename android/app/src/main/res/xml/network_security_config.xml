@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Allow HTTP for self-hosted LAN and P2P VPN (e.g., Tailscale) relay endpoints -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.lock
+
+# Local runtime secrets & configs
+relay-config.json
+local.properties
+
+# Android / Gradle
+android/.gradle/
+android/build/
+android/app/build/
+android/.idea/
+*.apk
+*.aab
+*.keystore
+*.jks
+.DS_Store
+Thumbs.db
